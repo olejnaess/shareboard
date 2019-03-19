@@ -1,33 +1,24 @@
 <?php
 
-class User{
-    public function __construct()
-    {
-//        echo "Constructur called";
-    }
+require 'classes/Database.php';
 
+$database = new Database;
 
-    public function register(){
-        echo ' User Registered'. PHP_EOL;
-    }
+$database->query('SELECT * FROM post WHERE id = :id');
+$database->bind(':id', 1);
 
-    public function login($username, $password){
-        $this->auth_user($username, $password);
-    }
+$rows = $database->resultset();
+//print_r($rows);
 
-    public function auth_user($username, $password)
-    {
-        echo $username. ' is authenticated'.PHP_EOL;
-    }
+?>
 
-    public function __destruct()
-    {
-        // TODO: Implement __destruct() method.
-//        echo 'Destructor called';
-    }
-}
+<h1> Posts </h1>
+<div>
+<?php foreach($rows as $row): ?>
+<div>
+    <h3><?php echo $row['title']; ?></h3>
+    <p><?php echo $row['body']; ?></p>
+</div>
 
-$User = new User;
-
-//$User->register();
-$User->login("Ole", "tester123");
+<?php endforeach; ?>
+</div>
