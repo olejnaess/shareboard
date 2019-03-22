@@ -1,24 +1,23 @@
 <?php
 
-require 'classes/Database.php';
+// Include Config.php
+require "config.php";
+require "classes/bootstrap.php";
+require "classes/Controller.php";
+require "classes/Model.php";
 
-$database = new Database;
 
-$database->query('SELECT * FROM post WHERE id = :id');
-$database->bind(':id', 1);
+require "controller/home.php";
+require "controller/shares.php";
+require "controller/users.php";
 
-$rows = $database->resultset();
-//print_r($rows);
+require "models/home.php";
+require "models/share.php";
+require "models/user.php";
 
-?>
 
-<h1> Posts </h1>
-<div>
-<?php foreach($rows as $row): ?>
-<div>
-    <h3><?php echo $row['title']; ?></h3>
-    <p><?php echo $row['body']; ?></p>
-</div>
-
-<?php endforeach; ?>
-</div>
+$bootstrap = new Bootstrap($_GET);
+$controller = $bootstrap->createController();
+if($controller){
+$controller->executeAction();
+}
